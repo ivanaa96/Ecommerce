@@ -1,0 +1,28 @@
+.login-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-form {
+  width: 100%;
+}
+
+.login-input {
+  margin: 8px 0;
+}
+
+.login-button {
+  margin-top: 16px;
+}
+
+.login-alert {
+  margin-top: 16px;
+}

@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom/client';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import './index.css';
-import Login from './containers/Login';
-import Dashboard from './containers/Dashboard';
+import Cart from 'containers/Cart';
+import Dashboard from 'containers/Dashboard';
+import Favorites from 'containers/Favorites';
+import Layout from 'containers/Layout';
+import Login from 'containers/Login';
+import ProductDetails from 'containers/ProductDetails';
+import APP_ROUTES from 'api/appRoutes';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,11 +17,16 @@ const root = ReactDOM.createRoot(
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/" element={<Dashboard />} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path={APP_ROUTES.LOGIN} element={<Login />} />
+        <Route path={APP_ROUTES.DASHBOARD} element={<Dashboard />} />
+        <Route path={APP_ROUTES.FAVORITES} element={<Favorites />} />
+        <Route path={APP_ROUTES.PRODUCT_DETAILS} element={<ProductDetails />} />
+        <Route path={APP_ROUTES.CART} element={<Cart />} />
+        <Route path={APP_ROUTES.HOME} element={<Dashboard />} />
+      </Routes>
+    </Layout>
   );
 }
 

@@ -10,6 +10,11 @@ export interface User {
   refreshToken: string;
 }
 
+export interface UserImage {
+  url: string;
+  alt: string;
+}
+
 export interface UserStore {
   user: User | null;
   setUser: (user: User) => void;

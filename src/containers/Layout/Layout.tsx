@@ -9,7 +9,7 @@ interface LayoutProps {
 }
 
 function Layout({ children }: LayoutProps): JSX.Element {
-  const user = useUser() as User;
+  const user: User | null = useUser();
 
   const imageAlt = `${user?.firstName || ''} ${user?.lastName || ''}`.trim();
 

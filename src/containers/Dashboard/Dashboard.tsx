@@ -1,22 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-import ProductList from 'components/product-list';
-import { useProducts, useGetProducts } from 'store/products/selectors';
+import DashboardComponent from 'components/dashboard';
+import InfoMessage from 'components/ui/info-message';
+import Loader from 'components/ui/loader';
+import {
+  useProducts,
+  useGetProducts,
+  useTotalNumberOfProducts,
+} from 'store/products/selectors';
 
 function Dashboard() {
   const getProducts = useGetProducts();
-  const products = useProducts();
+  const totalNumberOfProducts = useTotalNumberOfProducts();
+  const products = useProducts() || [];
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    setLoading(true);
+    getProducts(true).finally(() => {
+      setLoading(false);
+    });
+  }, [getProducts]);
 
-  //TODO: add loading component
+  const fetchMoreProducts = async () => {
+    setLoading(true);
+    try {
+      await getProducts();
+      setHasMore(products.length < totalNumberOfProducts);
+    } catch (error) {
+      console.error('Error fetching more products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!loading && products.length === 0) {
+    return <InfoMessage message="No products available." />;
+  }
 
   return (
-    <div>
-      <ProductList products={products} />
-    </div>
+    <InfiniteScroll
+      dataLength={products.length}
+      next={fetchMoreProducts}
+      hasMore={hasMore}
+      loader={<Loader />}
+      endMessage={<InfoMessage message="No more products to load" />}
+    >
+      <DashboardComponent products={products} />
+    </InfiniteScroll>
   );
 }
 

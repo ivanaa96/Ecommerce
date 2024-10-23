@@ -5,11 +5,7 @@
 
 .toolbar {
   justify-content: flex-end !important;
-}
-
-.icon-container {
-  display: flex;
-  gap: 16px;
+  gap: 10px;
 }
 
 .icon-button {

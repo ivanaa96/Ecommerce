@@ -45,7 +45,10 @@ export interface Product {
 }
 
 export interface ProductStore {
-  products: Product[] | null;
+  products: Product[];
+  skip: number;
+  totalNumberOfProducts: number;
+  incrementSkip: (amount: number) => void;
   setProducts: (products: Product[]) => void;
-  getProducts: () => Promise<void>;
+  getProducts: (isInitialLoad?: boolean) => Promise<void>;
 }

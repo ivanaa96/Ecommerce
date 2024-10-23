@@ -14,15 +14,16 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
 
 import './product-item.css';
+import InfoMessage from 'components/ui/info-message';
 import { Product } from 'store/products/types';
 
 interface ProductItemProps {
-  product: Product | null;
+  product: Product;
 }
 
 function ProductItem({ product }: ProductItemProps): JSX.Element {
   if (!product) {
-    return <Typography variant="h6">No product available.</Typography>;
+    return <InfoMessage message="No product available." />;
   }
 
   return (
@@ -35,7 +36,7 @@ function ProductItem({ product }: ProductItemProps): JSX.Element {
         <CardMedia
           component="img"
           className="product-image"
-          image={product.thumbnail || '/placeholder.png'}
+          image={product.thumbnail || 'no-image.png'}
           alt={product.title}
         />
         <CardContent className="product-content">

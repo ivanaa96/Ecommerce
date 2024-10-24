@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import {
+  ERROR_PRODUCT_NOT_FOUND,
+  ERROR_PRODUCT_ID_MISSING,
+  ERROR_FETCHING_PRODUCT_DETAILS,
+} from 'constants/constants';
 import ProductDetailsComponent from 'components/product-details';
 import InfoMessage from 'components/ui/info-message';
 import Loader from 'components/ui/loader';
-import { useGetProductById } from 'store/products/selectors';
+import { SnackbarSeverity, useSnackbarContext } from 'hooks/useSnackbar';
 import { Product } from 'store/products/types';
+import { useGetProductById, useAddToCart } from 'store/products/selectors';
 
 function ProductDetails(): JSX.Element {
   const { id } = useParams<{ id: string }>();
+
   const getProductById = useGetProductById();
+  const addToCart = useAddToCart();
+
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
+  const { openSnackbar } = useSnackbarContext();
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+
+    openSnackbar(`${product.title} added to cart!`, SnackbarSeverity.SUCCESS);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
       if (!id) {
-        setError('Oops! Product ID is missing.');
+        setError(ERROR_PRODUCT_ID_MISSING);
         setLoading(false);
         return;
       }
@@ -28,7 +44,7 @@ function ProductDetails(): JSX.Element {
         const fetchedProduct = await getProductById(id);
         setProduct(fetchedProduct);
       } catch (err) {
-        setError('Error fetching product details.');
+        setError(ERROR_FETCHING_PRODUCT_DETAILS);
       } finally {
         setLoading(false);
       }
@@ -50,13 +66,14 @@ function ProductDetails(): JSX.Element {
   }
 
   if (!product) {
-    return <InfoMessage message="Product not found." />;
+    return <InfoMessage message={ERROR_PRODUCT_NOT_FOUND} />;
   }
 
   return (
     <ProductDetailsComponent
       product={product}
       showMoreDetails={showMoreDetails}
+      onAddToCart={handleAddToCart}
       onToggleMoreDetails={handleShowMoreDetails}
     />
   );

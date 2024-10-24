@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import LoginComponent from 'components/login';
 import { useLogin, useUser } from 'store/user/selectors';
+
+type LoginError = AxiosError | Error | { message: string };
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -35,12 +37,13 @@ function Login() {
     try {
       await login(trimmedUsername, trimmedPassword);
     } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || 'An error occurred');
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else if (typeof (err as any).message === 'string') {
-        setError((err as any).message);
+      const error = err as LoginError;
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.message || 'An error occurred');
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else if (typeof error.message === 'string') {
+        setError(error.message);
       } else {
         setError('An unexpected error occurred');
       }

@@ -44,12 +44,29 @@ export interface Product {
   thumbnail: string;
 }
 
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export interface CheckoutResponse {
+  id: number;
+  products: CartItem[];
+  total: number;
+  discountedTotal: number;
+  userId: number;
+  totalProducts: number;
+  totalQuantity: number;
+}
+
 export interface ProductStore {
   products: Product[];
   skip: number;
   totalNumberOfProducts: number;
-  incrementSkip: (amount: number) => void;
-  setProducts: (products: Product[]) => void;
+  cartItems: CartItem[];
   getProducts: (isInitialLoad?: boolean) => Promise<void>;
   getProductById: (productId: string) => Promise<Product>;
+  addToCart: (product: Product) => void;
+  removeFromCart: (id: number) => void;
+  updateCartQuantity: (id: number, quantity: number) => void;
+  checkoutCart: (userId: number) => Promise<CheckoutResponse>;
 }

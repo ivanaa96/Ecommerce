@@ -18,6 +18,7 @@ import { Product } from 'store/products/types';
 interface ProductDetailProps {
   product: Product;
   showMoreDetails: boolean;
+  onAddToCart: (product: Product) => void;
   onToggleMoreDetails: () => void;
 }
 
@@ -25,6 +26,7 @@ function ProductDetail({
   product,
   showMoreDetails,
   onToggleMoreDetails,
+  onAddToCart,
 }: ProductDetailProps): JSX.Element {
   return (
     <Card className="product-details-container">
@@ -79,7 +81,11 @@ function ProductDetail({
         </Box>
 
         <Box className="buttons">
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => onAddToCart(product)}
+          >
             Add to Cart
           </Button>
 

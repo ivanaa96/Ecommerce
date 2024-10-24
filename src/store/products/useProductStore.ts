@@ -35,6 +35,19 @@ const useProductStore = create<ProductStore>((set, get) => ({
       console.error('An error occurred:', error);
     }
   },
+  getProductById: async (id: string) => {
+    try {
+      const response = await axiosInstance.get(
+        `${API_ENDPOINTS.PRODUCTS.GET}/${id}`
+      );
+
+      const product = response.data;
+
+      return product;
+    } catch (error) {
+      console.error('An error occurred while fetching product by ID:', error);
+    }
+  },
 }));
 
 export default useProductStore;

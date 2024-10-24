@@ -18,10 +18,18 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    getProducts(true).finally(() => {
-      setLoading(false);
-    });
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        await getProducts(true);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, [getProducts]);
 
   const fetchMoreProducts = async () => {

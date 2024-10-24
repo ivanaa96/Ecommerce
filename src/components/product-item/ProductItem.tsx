@@ -14,6 +14,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
 
 import './product-item.css';
+import API_ENDPOINTS from 'api/apiRoutes';
 import InfoMessage from 'components/ui/info-message';
 import { Product } from 'store/products/types';
 
@@ -32,7 +33,10 @@ function ProductItem({ product }: ProductItemProps): JSX.Element {
         <FavoriteBorderIcon />
       </IconButton>
 
-      <Link to={`/product/${product.id}`} className="product-link">
+      <Link
+        to={`${API_ENDPOINTS.PRODUCTS.GET}/${product.id}`}
+        className="product-link"
+      >
         <CardMedia
           component="img"
           className="product-image"

@@ -4,7 +4,7 @@ const APP_ROUTES = {
   LOGIN: '/login',
   FAVORITES: '/favorites',
   CART: '/cart',
-  PRODUCT_DETAILS: '/product-details',
+  PRODUCT_DETAILS: '/products/:id',
 };
 
 export default APP_ROUTES;

@@ -9,3 +9,5 @@ export const useGetProducts = () =>
   useProductStore((state: ProductStore) => state.getProducts);
 export const useTotalNumberOfProducts = () =>
   useProductStore((state: ProductStore) => state.totalNumberOfProducts);
+export const useGetProductById = () =>
+  useProductStore((state: ProductStore) => state.getProductById);

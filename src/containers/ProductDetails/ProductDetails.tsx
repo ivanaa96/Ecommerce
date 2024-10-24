@@ -17,9 +17,15 @@ function ProductDetails(): JSX.Element {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      if (!id) {
+        setError('Oops! Product ID is missing.');
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const fetchedProduct = await getProductById(id!);
+        const fetchedProduct = await getProductById(id);
         setProduct(fetchedProduct);
       } catch (err) {
         setError('Error fetching product details.');

@@ -1,3 +1,3 @@
-import ProductItem from './ProductItem';
+import ProductItemComponent from './ProductItem';
 
-export default ProductItem;
+export default ProductItemComponent;

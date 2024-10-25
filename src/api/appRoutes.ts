@@ -3,7 +3,7 @@ const APP_ROUTES = {
   DASHBOARD: '/dashboard',
   LOGIN: '/login',
   FAVORITES: '/favorites',
-  CART: '/cart',
+  CART: '/carts',
   PRODUCT_DETAILS: '/products/:id',
 };
 

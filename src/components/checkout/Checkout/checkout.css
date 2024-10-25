@@ -1,0 +1,59 @@
+.checkout__input {
+  margin-bottom: 15px !important;
+}
+
+.checkout__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.checkout__actions button {
+  flex: 1 1 10%;
+}
+
+@media (max-width: 600px) {
+  .checkout__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .checkout__actions button {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}
+
+.checkout__button--increment {
+  background-color: #8dd18f !important;
+  color: white;
+}
+
+.checkout__button--increment:hover {
+  background-color: #62b366 !important;
+}
+
+.checkout__button--decrement {
+  background-color: #c5d3da !important;
+  color: white;
+}
+
+.checkout__button--decrement:hover {
+  background-color: #90a4ae !important;
+  transform: scale(1.05);
+}
+
+.checkout__button--decrement:disabled {
+  background-color: #e0e0e0 !important;
+  color: #9e9e9e !important;
+}
+
+.checkout__button--remove {
+  background-color: #c43d3d !important;
+  text-transform: capitalize !important;
+}
+
+.checkout__button--remove:hover {
+  background-color: #e92323 !important;
+}

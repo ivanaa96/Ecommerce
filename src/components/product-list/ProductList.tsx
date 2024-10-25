@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid2 } from '@mui/material';
 
-import ProductItem from 'components/product-item';
+import ProductItem from 'containers/ProductItem';
 import { Product } from 'store/products/types';
 
 interface ProductListProps {

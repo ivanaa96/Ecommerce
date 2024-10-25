@@ -8,9 +8,7 @@ const useProductStore = create<ProductStore>((set, get) => ({
   products: [],
   skip: 0,
   totalNumberOfProducts: 0,
-  setProducts: (products: Product[]) => set({ products }),
-  incrementSkip: (amount: number) =>
-    set((state) => ({ skip: state.skip + amount })),
+  cartItems: [],
 
   getProducts: async (isInitialLoad = false) => {
     const { skip } = get();
@@ -35,6 +33,7 @@ const useProductStore = create<ProductStore>((set, get) => ({
       console.error('An error occurred:', error);
     }
   },
+
   getProductById: async (id: string) => {
     try {
       const response = await axiosInstance.get(
@@ -46,6 +45,61 @@ const useProductStore = create<ProductStore>((set, get) => ({
       return product;
     } catch (error) {
       console.error('An error occurred while fetching product by ID:', error);
+    }
+  },
+
+  addToCart: (product: Product) => {
+    set((state) => {
+      const existingProduct = state.cartItems.find(
+        (item) => item.id === product.id
+      );
+
+      if (existingProduct) {
+        return {
+          cartItems: state.cartItems.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          ),
+        };
+      }
+
+      return { cartItems: [...state.cartItems, { ...product, quantity: 1 }] };
+    });
+  },
+
+  removeFromCart: (id: number) => {
+    set((state) => ({
+      cartItems: state.cartItems.filter((item) => item.id !== id),
+    }));
+  },
+
+  updateCartQuantity: (id: number, quantity: number) => {
+    set((state) => ({
+      cartItems: state.cartItems.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      ),
+    }));
+  },
+
+  checkoutCart: async (userId: number) => {
+    const cartItems = get().cartItems.map((item) => ({
+      id: item.id,
+      quantity: item.quantity,
+    }));
+
+    try {
+      const response = await axiosInstance.post(
+        API_ENDPOINTS.CHECKOUT.PURCHASE,
+        {
+          userId,
+          products: cartItems,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      throw new Error();
     }
   },
 }));

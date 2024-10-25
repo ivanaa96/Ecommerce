@@ -5,6 +5,9 @@ const API_ENDPOINTS = {
   PRODUCTS: {
     GET: '/products',
   },
+  CHECKOUT: {
+    PURCHASE: '/carts/add',
+  },
 };
 
 export default API_ENDPOINTS;

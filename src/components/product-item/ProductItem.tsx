@@ -1,13 +1,12 @@
 import React from 'react';
 import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
   Box,
   Button,
-  Rating,
+  Card,
+  CardMedia,
   IconButton,
+  Rating,
+  Typography,
 } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -20,9 +19,13 @@ import { Product } from 'store/products/types';
 
 interface ProductItemProps {
   product: Product;
+  onAddToCart: (product: Product) => void;
 }
 
-function ProductItem({ product }: ProductItemProps): JSX.Element {
+function ProductItemComponent({
+  product,
+  onAddToCart,
+}: ProductItemProps): JSX.Element {
   if (!product) {
     return <InfoMessage message="No product available." />;
   }
@@ -43,32 +46,37 @@ function ProductItem({ product }: ProductItemProps): JSX.Element {
           image={product.thumbnail || 'no-image.png'}
           alt={product.title}
         />
-        <CardContent className="product-content">
+        <div className="product-content">
           <Typography variant="body1" className="product-title">
             {product.title}
           </Typography>
-
-          <Box className="product-details">
-            <Typography variant="subtitle1" className="product-price">
-              ${product.price.toFixed(2)}
-            </Typography>
-            <Rating
-              value={product.rating}
-              readOnly
-              precision={0.5}
-              size="small"
-              className="product-rating"
-            />
-          </Box>
-
-          <Button className="add-to-cart-button">
-            <AddShoppingCartIcon className="cart-icon" />
-            Add to cart
-          </Button>
-        </CardContent>
+        </div>
       </Link>
+
+      <Box className="product-details">
+        <Typography variant="subtitle1" className="product-price">
+          ${product.price.toFixed(2)}
+        </Typography>
+        <Rating
+          value={product.rating}
+          readOnly
+          precision={0.5}
+          size="small"
+          className="product-rating"
+        />
+      </Box>
+
+      <div className="button-container">
+        <Button
+          className="add-to-cart-button"
+          onClick={() => onAddToCart(product)}
+        >
+          <AddShoppingCartIcon className="cart-icon" />
+          Add to cart
+        </Button>
+      </div>
     </Card>
   );
 }
 
-export default ProductItem;
+export default ProductItemComponent;

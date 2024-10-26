@@ -1,45 +1,52 @@
 import React from 'react';
-import { Button, ListItem, ListItemText } from '@mui/material';
+import { Avatar, Button, ListItem, ListItemText } from '@mui/material';
 
+import './cart-item.css';
 import { CartItem } from 'store/products/types';
 
 interface CartItemComponentProps {
-  item: CartItem;
+  cartItem: CartItem;
   onRemoveItem: (productId: number) => void;
   onUpdateQuantity: (productId: number, quantity: number) => void;
 }
 
 function CartItemComponent({
-  item,
+  cartItem,
   onUpdateQuantity,
   onRemoveItem,
 }: CartItemComponentProps): JSX.Element {
   return (
-    <ListItem>
+    <ListItem className="cart-item__container">
+      <Avatar
+        src={cartItem.thumbnail}
+        alt={cartItem.title}
+        variant="square"
+        sx={{ width: 50, height: 50, marginRight: 2 }}
+      />
       <ListItemText
-        primary={item.title}
-        secondary={`Price: $${item.price.toFixed(2)} x ${item.quantity}`}
+        primary={cartItem.title}
+        secondary={`Price: $${cartItem.price.toFixed(2)} x ${cartItem.quantity}`}
       />
       <div className="checkout__actions">
         <Button
           variant="contained"
           className="checkout__button--decrement"
-          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-          disabled={item.quantity <= 1}
+          onClick={() => onUpdateQuantity(cartItem.id, cartItem.quantity - 1)}
+          disabled={cartItem.quantity <= 1}
         >
           -
         </Button>
         <Button
           className="checkout__button--increment"
           variant="contained"
-          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+          onClick={() => onUpdateQuantity(cartItem.id, cartItem.quantity + 1)}
         >
           +
         </Button>
         <Button
           className="checkout__button--remove"
           variant="contained"
-          onClick={() => onRemoveItem(item.id)}
+          onClick={() => onRemoveItem(cartItem.id)}
         >
           Remove
         </Button>

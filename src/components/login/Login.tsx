@@ -4,21 +4,21 @@ import { TextField, Button, Box, Typography, Alert } from '@mui/material';
 import './login.css';
 
 interface LoginComponentProps {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   username: string;
-  setUsername: React.Dispatch<React.SetStateAction<string>>;
   password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
   error: string | null;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const LoginComponent: React.FC<LoginComponentProps> = ({
-  handleSubmit,
   username,
-  setUsername,
   password,
-  setPassword,
   error,
+  setUsername,
+  setPassword,
+  handleSubmit,
 }) => {
   return (
     <Box className="login-container">

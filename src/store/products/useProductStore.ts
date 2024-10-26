@@ -6,32 +6,32 @@ import API_ENDPOINTS from 'api/apiRoutes';
 
 const useProductStore = create<ProductStore>((set, get) => ({
   products: [],
-  skip: 0,
   totalNumberOfProducts: 0,
   cartItems: [],
 
-  getProducts: async (isInitialLoad = false) => {
-    const { skip } = get();
-    const newSkip = isInitialLoad ? 0 : skip;
-
+  getProducts: async (limit: number, skip: number, searchTerm = '') => {
     try {
-      const response = await axiosInstance.get(
-        `${API_ENDPOINTS.PRODUCTS.GET}?limit=10&skip=${newSkip}`
+      const { data } = await axiosInstance.get(
+        `${API_ENDPOINTS.PRODUCTS.GET}/search?q=${searchTerm}&limit=${limit}&skip=${skip}`
       );
 
-      const newProducts = response.data.products;
-      const totalNumber = response.data.total;
+      const newProducts = data.products;
+      const totalNumber = data.total;
 
       set((state) => ({
-        products: isInitialLoad
-          ? newProducts
-          : [...state.products, ...newProducts],
-        skip: newSkip + 10,
+        products: [...state.products, ...newProducts],
         totalNumberOfProducts: totalNumber,
       }));
     } catch (error) {
       console.error('An error occurred:', error);
     }
+  },
+
+  resetProducts: () => {
+    set(() => ({
+      products: [],
+      totalNumberOfProducts: 0,
+    }));
   },
 
   getProductById: async (id: string) => {

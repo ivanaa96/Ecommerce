@@ -12,12 +12,7 @@ function ProductList({ products }: ProductListProps): JSX.Element {
   return (
     <div>
       {products && products.length > 0 && (
-        <Grid2
-          container
-          spacing={2}
-          columns={{ xs: 12, sm: 12, md: 12, lg: 12 }}
-          className="products-grid"
-        >
+        <Grid2 container spacing={2}>
           {products.map((product) => (
             <ProductItem key={product.id} product={product} />
           ))}

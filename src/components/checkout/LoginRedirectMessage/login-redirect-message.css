@@ -1,0 +1,10 @@
+.login-redirect-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.redirection-button {
+  margin-top: 16px;
+}

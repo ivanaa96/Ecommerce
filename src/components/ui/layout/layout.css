@@ -1,9 +1,8 @@
-.layout {
+.main-content {
   display: flex;
   flex-direction: column;
-}
-
-.main-content {
-  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   padding: 20px;
 }

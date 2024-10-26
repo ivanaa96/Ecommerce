@@ -31,25 +31,25 @@ function ProductDetails(): JSX.Element {
     openSnackbar(`${product.title} added to cart!`, SnackbarSeverity.SUCCESS);
   };
 
+  const fetchProduct = async () => {
+    if (!id) {
+      setError(ERROR_PRODUCT_ID_MISSING);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const fetchedProduct = await getProductById(id);
+      setProduct(fetchedProduct);
+    } catch (err) {
+      setError(ERROR_FETCHING_PRODUCT_DETAILS);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProduct = async () => {
-      if (!id) {
-        setError(ERROR_PRODUCT_ID_MISSING);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const fetchedProduct = await getProductById(id);
-        setProduct(fetchedProduct);
-      } catch (err) {
-        setError(ERROR_FETCHING_PRODUCT_DETAILS);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProduct();
   }, [id, getProductById]);
 

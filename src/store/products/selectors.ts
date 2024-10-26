@@ -5,6 +5,8 @@ export const useProducts = () =>
   useProductStore((state: ProductStore) => state.products);
 export const useGetProducts = () =>
   useProductStore((state: ProductStore) => state.getProducts);
+export const useResetProducts = () =>
+  useProductStore((state: ProductStore) => state.resetProducts);
 export const useTotalNumberOfProducts = () =>
   useProductStore((state: ProductStore) => state.totalNumberOfProducts);
 export const useGetProductById = () =>

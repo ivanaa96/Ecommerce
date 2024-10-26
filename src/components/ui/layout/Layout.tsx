@@ -22,7 +22,7 @@ function LayoutComponent({
   const { snackbar, closeSnackbar } = useSnackbarContext();
 
   return (
-    <div className="layout">
+    <div>
       <HeaderComponent
         userImage={image}
         onNavigate={onNavigate}

@@ -19,10 +19,10 @@ import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES } from 'constants/constants';
 interface ProductDetailProps {
   product: Product;
   showMoreDetails: boolean;
+  isFavorite: boolean;
   onAddToCart: (product: Product) => void;
   onToggleMoreDetails: () => void;
   onToggleFavorite: () => void;
-  isFavorite: boolean;
 }
 
 function ProductDetail({

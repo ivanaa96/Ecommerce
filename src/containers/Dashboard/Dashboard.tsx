@@ -11,6 +11,7 @@ import {
   useGetCategories,
   useCategories,
   useSearchByCategory,
+  useResetCategories,
 } from 'store/products/selectors';
 import { Category } from 'store/products/types';
 
@@ -19,6 +20,7 @@ function Dashboard() {
   const resetProducts = useResetProducts();
   const getCategories = useGetCategories();
   const searchByCategory = useSearchByCategory();
+  const resetCategories = useResetCategories();
 
   const categories = useCategories();
   const totalNumberOfProducts = useTotalNumberOfProducts();
@@ -34,6 +36,11 @@ function Dashboard() {
 
   useEffect(() => {
     getCategories();
+
+    return () => {
+      resetProducts();
+      resetCategories();
+    };
   }, []);
 
   useEffect(() => {
@@ -71,8 +78,8 @@ function Dashboard() {
 
   const handleToggleCategories = () => {
     if (selectedCategory) {
-      setSearchTerm('');
       resetProducts();
+      setSearchTerm('');
     }
 
     setSelectedCategory(null);

@@ -6,7 +6,7 @@ import CartFormComponent from '../CartForm';
 import LoginRedirectMessage from '../LoginRedirectMessage';
 import { CartItem } from 'store/products/types';
 
-interface CheckoutComponentProps {
+export interface CheckoutComponentProps {
   cartItems: CartItem[];
   address: string;
   phoneNumber: string;

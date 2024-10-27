@@ -38,7 +38,7 @@ function SearchComponent({
         ) : (
           <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
         )}
-        <IconButton onClick={onToggleCategories}>
+        <IconButton onClick={onToggleCategories} aria-label="toggle categories">
           <FilterListIcon />
         </IconButton>
       </Box>

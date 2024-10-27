@@ -41,7 +41,6 @@ function FavoriteProductItem({
       />
 
       <IconButton
-        edge="end"
         aria-label="delete"
         onClick={() => onRemoveFromFavorites(product.id)}
       >

@@ -13,6 +13,7 @@ function SearchBar({ searchTerm, onSearch }: SearchBarProps): JSX.Element {
   return (
     <TextField
       variant="outlined"
+      aria-label="textarea"
       className="search-bar"
       placeholder="Search products..."
       value={searchTerm}

@@ -89,4 +89,5 @@ export interface ProductStore {
     skip: number,
     limit?: number
   ) => Promise<void>;
+  resetCategories: () => void;
 }

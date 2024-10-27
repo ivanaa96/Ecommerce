@@ -5,7 +5,7 @@ import { NO_FAVORITE_PRODUCTS } from 'constants/constants';
 import InfoMessage from 'components/ui/info-message';
 import { Product } from 'store/products/types';
 
-interface FavoriteProductsComponentProps {
+export interface FavoriteProductsComponentProps {
   favoriteProducts: Product[];
   onNavigate: (productId: number) => void;
   onRemoveFromFavorites: (productId: number) => void;

@@ -8,6 +8,7 @@ import {
   Rating,
   Typography,
 } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
@@ -19,12 +20,16 @@ import { Product } from 'store/products/types';
 
 interface ProductItemProps {
   product: Product;
+  isFavorite: boolean;
   onAddToCart: (product: Product) => void;
+  onToggleFavorite: (product: Product) => void;
 }
 
 function ProductItemComponent({
   product,
+  isFavorite,
   onAddToCart,
+  onToggleFavorite,
 }: ProductItemProps): JSX.Element {
   if (!product) {
     return <InfoMessage message="No product available." />;
@@ -32,8 +37,11 @@ function ProductItemComponent({
 
   return (
     <Card className="product-card">
-      <IconButton className="favorite-button">
-        <FavoriteBorderIcon />
+      <IconButton
+        className="favorite-button"
+        onClick={() => onToggleFavorite(product)}
+      >
+        {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
       </IconButton>
 
       <Link

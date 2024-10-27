@@ -6,7 +6,7 @@ import './index.css';
 import APP_ROUTES from 'api/appRoutes';
 import Checkout from 'containers/Checkout';
 import Dashboard from 'containers/Dashboard';
-import Favorites from 'containers/Favorites';
+import FavoriteProducts from 'containers/FavoriteProducts';
 import Layout from 'containers/Layout';
 import Login from 'containers/Login';
 import ProductDetails from 'containers/ProductDetails';
@@ -21,7 +21,7 @@ export default function App() {
       <Routes>
         <Route path={APP_ROUTES.LOGIN} element={<Login />} />
         <Route path={APP_ROUTES.DASHBOARD} element={<Dashboard />} />
-        <Route path={APP_ROUTES.FAVORITES} element={<Favorites />} />
+        <Route path={APP_ROUTES.FAVORITES} element={<FavoriteProducts />} />
         <Route path={APP_ROUTES.PRODUCT_DETAILS} element={<ProductDetails />} />
         <Route path={APP_ROUTES.CART} element={<Checkout />} />
         <Route path={APP_ROUTES.HOME} element={<Dashboard />} />

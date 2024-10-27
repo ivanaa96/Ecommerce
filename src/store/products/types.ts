@@ -62,6 +62,7 @@ export interface ProductStore {
   products: Product[];
   totalNumberOfProducts: number;
   cartItems: CartItem[];
+  favoriteProducts: Product[];
   getProducts: (
     limit: number,
     skip: number,
@@ -73,4 +74,6 @@ export interface ProductStore {
   removeFromCart: (id: number) => void;
   updateCartQuantity: (id: number, quantity: number) => void;
   checkoutCart: (userId: number) => Promise<CheckoutResponse>;
+  addToFavoriteProducts: (product: Product) => void;
+  removeFromFavoriteProducts: (productId: number) => void;
 }

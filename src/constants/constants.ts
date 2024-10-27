@@ -13,3 +13,7 @@ export const LOGIN_TOOLTIP_MESSAGE =
   'You are not currently logged in. Click to go to login page';
 export const NO_MORE_PRODUCTS_MESSAGE = 'No more products to load.';
 export const NO_PRODUCT_AVAILABLE = 'No product available.';
+export const NO_FAVORITE_PRODUCTS =
+  'You have no favorite products yet. Add some!';
+export const REMOVE_FROM_FAVORITES = 'Remove from Favorites';
+export const ADD_TO_FAVORITES = 'Add to Favorites';

@@ -8,6 +8,7 @@ const useProductStore = create<ProductStore>((set, get) => ({
   products: [],
   totalNumberOfProducts: 0,
   cartItems: [],
+  favoriteProducts: [],
 
   getProducts: async (limit: number, skip: number, searchTerm = '') => {
     try {
@@ -101,6 +102,30 @@ const useProductStore = create<ProductStore>((set, get) => ({
     } catch (error) {
       throw new Error();
     }
+  },
+
+  addToFavoriteProducts: (product: Product) => {
+    set((state) => {
+      const isAlreadyFavorite = state.favoriteProducts.some(
+        (favProduct) => favProduct.id === product.id
+      );
+
+      if (isAlreadyFavorite) {
+        return state;
+      }
+
+      return {
+        favoriteProducts: [...state.favoriteProducts, product],
+      };
+    });
+  },
+
+  removeFromFavoriteProducts: (productId: number) => {
+    set((state) => ({
+      favoriteProducts: state.favoriteProducts.filter(
+        (product) => product.id !== productId
+      ),
+    }));
   },
 }));
 

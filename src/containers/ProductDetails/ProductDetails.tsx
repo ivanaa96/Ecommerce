@@ -9,6 +9,7 @@ import {
 import ProductDetailsComponent from 'components/product-details';
 import InfoMessage from 'components/ui/info-message';
 import Loader from 'components/ui/loader';
+import useFavorite from 'hooks/useFavorite';
 import { SnackbarSeverity, useSnackbarContext } from 'hooks/useSnackbar';
 import { Product } from 'store/products/types';
 import { useGetProductById, useAddToCart } from 'store/products/selectors';
@@ -24,6 +25,7 @@ function ProductDetails(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const { openSnackbar } = useSnackbarContext();
+  const { isFavorite, toggleFavorite } = useFavorite(product);
 
   const handleAddToCart = (product: Product) => {
     addToCart(product);
@@ -73,8 +75,10 @@ function ProductDetails(): JSX.Element {
     <ProductDetailsComponent
       product={product}
       showMoreDetails={showMoreDetails}
+      isFavorite={isFavorite}
       onAddToCart={handleAddToCart}
       onToggleMoreDetails={handleShowMoreDetails}
+      onToggleFavorite={toggleFavorite}
     />
   );
 }

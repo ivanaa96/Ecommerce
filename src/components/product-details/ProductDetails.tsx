@@ -14,19 +14,24 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import './product-details.css';
 import { Product } from 'store/products/types';
+import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES } from 'constants/constants';
 
 interface ProductDetailProps {
   product: Product;
   showMoreDetails: boolean;
   onAddToCart: (product: Product) => void;
   onToggleMoreDetails: () => void;
+  onToggleFavorite: () => void;
+  isFavorite: boolean;
 }
 
 function ProductDetail({
   product,
   showMoreDetails,
+  isFavorite,
   onToggleMoreDetails,
   onAddToCart,
+  onToggleFavorite,
 }: ProductDetailProps): JSX.Element {
   return (
     <Card className="product-details-container">
@@ -89,8 +94,12 @@ function ProductDetail({
             Add to Cart
           </Button>
 
-          <Button variant="contained" color="secondary">
-            Add to Favorites
+          <Button
+            variant="contained"
+            color={isFavorite ? 'error' : 'secondary'}
+            onClick={onToggleFavorite}
+          >
+            {isFavorite ? REMOVE_FROM_FAVORITES : ADD_TO_FAVORITES}
           </Button>
         </Box>
       </CardContent>

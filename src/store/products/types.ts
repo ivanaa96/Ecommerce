@@ -60,10 +60,14 @@ export interface CheckoutResponse {
 
 export interface ProductStore {
   products: Product[];
-  skip: number;
   totalNumberOfProducts: number;
   cartItems: CartItem[];
-  getProducts: (isInitialLoad?: boolean) => Promise<void>;
+  getProducts: (
+    limit: number,
+    skip: number,
+    searchTerm?: string
+  ) => Promise<void>;
+  resetProducts: () => void;
   getProductById: (productId: string) => Promise<Product>;
   addToCart: (product: Product) => void;
   removeFromCart: (id: number) => void;

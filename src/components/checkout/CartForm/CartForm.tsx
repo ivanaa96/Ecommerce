@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, TextField, Box } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 
+import './cart-form.css';
 import {
   CHECKOUT_ADDRESS_ERROR,
   CHECKOUT_PHONE_NUMBER_ERROR,
@@ -12,12 +13,10 @@ interface CartFormComponentProps {
   additionalMessage: string;
   isAddressError: boolean;
   isPhoneError: boolean;
-  onAddressChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onAdditionalMessageChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onAddressChange: (address: string) => void;
+  onPhoneNumberChange: (phoneNumber: string) => void;
+  onAdditionalMessageChange: (additionalMessage: string) => void;
   onCheckout: () => void;
-  onPhoneNumberChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function CartFormComponent({
@@ -32,42 +31,48 @@ function CartFormComponent({
   onPhoneNumberChange,
 }: CartFormComponentProps): JSX.Element {
   return (
-    <form>
-      <Box>
-        <TextField
-          className="checkout__input"
-          fullWidth
-          label="Address"
-          required
-          value={address}
-          onChange={onAddressChange}
-          error={isAddressError}
-          helperText={isAddressError ? CHECKOUT_ADDRESS_ERROR : ''}
-        />
+    <form className="checkout__form">
+      <Typography variant="h5" gutterBottom>
+        Enter your information
+      </Typography>
 
-        <TextField
-          className="checkout__input"
-          fullWidth
-          label="Phone Number"
-          required
-          value={phoneNumber}
-          onChange={onPhoneNumberChange}
-          error={isPhoneError}
-          helperText={isPhoneError ? CHECKOUT_PHONE_NUMBER_ERROR : ''}
-        />
+      <TextField
+        className="checkout__input"
+        fullWidth
+        label="Address"
+        required
+        value={address}
+        onChange={({ target }) => onAddressChange(target.value)}
+        error={isAddressError}
+        helperText={isAddressError ? CHECKOUT_ADDRESS_ERROR : ''}
+      />
 
-        <TextField
-          className="checkout__input"
-          fullWidth
-          label="Additional Message (optional)"
-          value={additionalMessage}
-          onChange={onAdditionalMessageChange}
-        />
+      <TextField
+        className="checkout__input"
+        fullWidth
+        label="Phone Number"
+        required
+        value={phoneNumber}
+        onChange={({ target }) => onPhoneNumberChange(target.value)}
+        error={isPhoneError}
+        helperText={isPhoneError ? CHECKOUT_PHONE_NUMBER_ERROR : ''}
+      />
 
-        <Button variant="contained" onClick={onCheckout}>
-          Checkout
-        </Button>
-      </Box>
+      <TextField
+        className="checkout__input"
+        fullWidth
+        label="Additional Message (optional)"
+        value={additionalMessage}
+        onChange={({ target }) => onAdditionalMessageChange(target.value)}
+      />
+
+      <Button
+        variant="contained"
+        className="checkout-form__button"
+        onClick={onCheckout}
+      >
+        Checkout
+      </Button>
     </form>
   );
 }

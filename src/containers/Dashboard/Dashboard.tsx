@@ -1,63 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import DashboardComponent from 'components/dashboard';
-import InfoMessage from 'components/ui/info-message';
-import Loader from 'components/ui/loader';
+import useDebounce from 'hooks/useDebounce';
 import {
   useProducts,
   useGetProducts,
   useTotalNumberOfProducts,
+  useResetProducts,
 } from 'store/products/selectors';
+
+const LIMIT = 10;
 
 function Dashboard() {
   const getProducts = useGetProducts();
+  const resetProducts = useResetProducts();
   const totalNumberOfProducts = useTotalNumberOfProducts();
-  const products = useProducts() || [];
-  const [hasMore, setHasMore] = useState(true);
+  const products = useProducts();
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [skip, setSkip] = useState(0);
+
+  const debouncedSearchTerm = useDebounce(searchTerm.trim(), 1000);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        await getProducts(true);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    resetProducts();
+    fetchProducts(0);
+  }, [debouncedSearchTerm]);
 
-    fetchProducts();
-  }, [getProducts]);
-
-  const fetchMoreProducts = async () => {
+  const fetchProducts = async (skip: number) => {
     setLoading(true);
+
     try {
-      await getProducts();
-      setHasMore(products.length < totalNumberOfProducts);
+      await getProducts(LIMIT, skip, debouncedSearchTerm);
     } catch (error) {
-      console.error('Error fetching more products:', error);
+      console.error('Error fetching products:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (!loading && products.length === 0) {
-    return <InfoMessage message="No products available." />;
-  }
+  const fetchMoreProducts = () => {
+    setSkip(skip + 10);
+    fetchProducts(skip + 10);
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+    setSkip(0);
+  };
 
   return (
-    <InfiniteScroll
-      dataLength={products.length}
-      next={fetchMoreProducts}
-      hasMore={hasMore}
-      loader={<Loader />}
-      endMessage={<InfoMessage message="No more products to load" />}
-    >
-      <DashboardComponent products={products} />
-    </InfiniteScroll>
+    <DashboardComponent
+      products={products}
+      searchTerm={searchTerm}
+      loading={loading}
+      hasMore={skip + LIMIT < totalNumberOfProducts}
+      fetchMoreProducts={fetchMoreProducts}
+      onSearch={handleSearch}
+    />
   );
 }
 

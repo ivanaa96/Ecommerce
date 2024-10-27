@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import CheckoutComponent from 'components/checkout/Checkout';
 import {
@@ -15,6 +16,7 @@ import {
   useRemoveFromCart,
 } from 'store/products/selectors';
 import { useUser } from 'store/user/selectors';
+import APP_ROUTES from 'api/appRoutes';
 
 function Checkout() {
   const cartItems = useCartItems();
@@ -23,6 +25,7 @@ function Checkout() {
   const updateCartQuantity = useUpdateCartQuantity();
   const checkoutCart = useCheckoutCart();
   const { openSnackbar } = useSnackbarContext();
+  const navigate = useNavigate();
 
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -30,20 +33,16 @@ function Checkout() {
   const [isAddressError, setIsAddressError] = useState(false);
   const [isPhoneError, setIsPhoneError] = useState(false);
 
-  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
+  const handleAddressChange = (address: string) => {
+    setAddress(address);
   };
 
-  const handlePhoneNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPhoneNumber(event.target.value);
+  const handlePhoneNumberChange = (phoneNumber: string) => {
+    setPhoneNumber(phoneNumber);
   };
 
-  const handleAdditionalMessageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setAdditionalMessage(event.target.value);
+  const handleAdditionalMessageChange = (additionalMessage: string) => {
+    setAdditionalMessage(additionalMessage);
   };
 
   const validateForm = (): boolean => {
@@ -73,13 +72,14 @@ function Checkout() {
   };
 
   const handleCheckout = async () => {
+    if (!user) return;
+
     setIsAddressError(false);
     setIsPhoneError(false);
 
     if (validateForm()) return;
 
     try {
-      if (!user) return;
       const data = await checkoutCart(user.id);
 
       const purchasedItems = data.products
@@ -104,9 +104,14 @@ function Checkout() {
     }
   };
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
+  const handleRedirectToLoginPage = () => {
+    navigate(APP_ROUTES.LOGIN);
+  };
+
+  const totalPrice = useMemo(
+    () =>
+      cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+    [cartItems]
   );
 
   return (
@@ -118,12 +123,14 @@ function Checkout() {
       totalPrice={totalPrice}
       isAddressError={isAddressError}
       isPhoneError={isPhoneError}
+      isAuthenticated={!!user}
       onAddressChange={handleAddressChange}
       onPhoneNumberChange={handlePhoneNumberChange}
       onAdditionalMessageChange={handleAdditionalMessageChange}
       onRemoveItem={removeFromCart}
       onUpdateQuantity={updateCartQuantity}
       onCheckout={handleCheckout}
+      onRedirectToLogin={handleRedirectToLoginPage}
     />
   );
 }

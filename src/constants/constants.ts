@@ -17,3 +17,6 @@ export const NO_FAVORITE_PRODUCTS =
   'You have no favorite products yet. Add some!';
 export const REMOVE_FROM_FAVORITES = 'Remove from Favorites';
 export const ADD_TO_FAVORITES = 'Add to Favorites';
+
+export const INITIAL_SKIP = 0;
+export const LIMIT = 10;

@@ -2,31 +2,48 @@ import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { NO_MORE_PRODUCTS_MESSAGE } from 'constants/constants';
+import ProductList from 'components/product-list';
 import Loader from 'components/ui/loader';
 import InfoMessage from 'components/ui/info-message';
-import ProductList from 'components/product-list';
-import SearchBar from 'components/ui/search-bar';
-import { Product } from 'store/products/types';
+import SearchComponent from 'components/search/search-component';
+import { Category, Product } from 'store/products/types';
 
 interface DashboardComponentProps {
   products: Product[];
   searchTerm: string;
   hasMore: boolean;
-  loading: boolean;
+  categories: Category[];
+  showCategories: boolean;
+  selectedCategory: Category | null;
   fetchMoreProducts: () => void;
   onSearch: (searchTerm: string) => void;
+  onSearchByCategory: (category: Category) => void;
+  onToggleCategories: () => void;
 }
 
 function DashboardComponent({
   products,
   searchTerm,
   hasMore,
+  categories,
+  showCategories,
+  selectedCategory,
   fetchMoreProducts,
   onSearch,
+  onSearchByCategory,
+  onToggleCategories,
 }: DashboardComponentProps): JSX.Element {
   return (
     <>
-      <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
+      <SearchComponent
+        searchTerm={searchTerm}
+        categories={categories}
+        showCategories={showCategories}
+        onToggleCategories={onToggleCategories}
+        onSearch={onSearch}
+        searchByCategory={onSearchByCategory}
+        selectedCategory={selectedCategory}
+      />
       <InfiniteScroll
         dataLength={products.length}
         hasMore={hasMore}

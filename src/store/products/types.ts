@@ -58,11 +58,18 @@ export interface CheckoutResponse {
   totalQuantity: number;
 }
 
+export interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}
+
 export interface ProductStore {
   products: Product[];
   totalNumberOfProducts: number;
   cartItems: CartItem[];
   favoriteProducts: Product[];
+  categories: Category[];
   getProducts: (
     limit: number,
     skip: number,
@@ -76,4 +83,10 @@ export interface ProductStore {
   checkoutCart: (userId: number) => Promise<CheckoutResponse>;
   addToFavoriteProducts: (product: Product) => void;
   removeFromFavoriteProducts: (productId: number) => void;
+  getCategories: () => Promise<void>;
+  searchByCategory: (
+    category: Category,
+    skip: number,
+    limit?: number
+  ) => Promise<void>;
 }

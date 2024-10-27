@@ -9,7 +9,7 @@ interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearch }) => {
+function SearchBar({ searchTerm, onSearch }: SearchBarProps): JSX.Element {
   return (
     <TextField
       variant="outlined"
@@ -28,6 +28,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearch }) => {
       }}
     />
   );
-};
+}
 
 export default SearchBar;

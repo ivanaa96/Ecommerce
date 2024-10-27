@@ -29,3 +29,10 @@ export const useAddToFavoriteProducts = () =>
   useProductStore((state: ProductStore) => state.addToFavoriteProducts);
 export const useRemoveFromFavoriteProducts = () =>
   useProductStore((state: ProductStore) => state.removeFromFavoriteProducts);
+
+export const useGetCategories = () =>
+  useProductStore((state: ProductStore) => state.getCategories);
+export const useCategories = () =>
+  useProductStore((state: ProductStore) => state.categories);
+export const useSearchByCategory = () =>
+  useProductStore((state: ProductStore) => state.searchByCategory);

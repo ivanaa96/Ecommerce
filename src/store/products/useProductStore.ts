@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { Product, ProductStore } from './types';
+import { Category, Product, ProductStore } from './types';
 import axiosInstance from 'api/axiosInstance';
 import API_ENDPOINTS from 'api/apiRoutes';
 
@@ -9,6 +9,7 @@ const useProductStore = create<ProductStore>((set, get) => ({
   totalNumberOfProducts: 0,
   cartItems: [],
   favoriteProducts: [],
+  categories: [],
 
   getProducts: async (limit: number, skip: number, searchTerm = '') => {
     try {
@@ -45,7 +46,7 @@ const useProductStore = create<ProductStore>((set, get) => ({
 
       return product;
     } catch (error) {
-      console.error('An error occurred while fetching product by ID:', error);
+      console.error('An error occurred:', error);
     }
   },
 
@@ -126,6 +127,33 @@ const useProductStore = create<ProductStore>((set, get) => ({
         (product) => product.id !== productId
       ),
     }));
+  },
+
+  getCategories: async () => {
+    try {
+      const { data } = await axiosInstance.get(
+        API_ENDPOINTS.PRODUCTS.CATEGORIES
+      );
+
+      set(() => ({ categories: data }));
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  },
+
+  searchByCategory: async (category: Category, skip: number, limit = 10) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `${API_ENDPOINTS.PRODUCTS.SEARCH_BY_CATEGORY}${category.slug}?limit=${limit}&skip=${skip}`
+      );
+
+      set((state) => ({
+        products: [...state.products, ...data.products],
+        totalNumberOfProducts: data.total,
+      }));
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   },
 }));
 

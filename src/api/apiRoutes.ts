@@ -4,6 +4,8 @@ const API_ENDPOINTS = {
   },
   PRODUCTS: {
     GET: '/products',
+    CATEGORIES: '/products/categories',
+    SEARCH_BY_CATEGORY: '/products/category/',
   },
   CHECKOUT: {
     PURCHASE: '/carts/add',

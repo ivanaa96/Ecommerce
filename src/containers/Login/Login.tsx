@@ -52,12 +52,12 @@ function Login() {
 
   return (
     <LoginComponent
-      handleSubmit={handleSubmit}
       username={username}
-      setUsername={setUsername}
       password={password}
-      setPassword={setPassword}
       error={error}
+      setUsername={setUsername}
+      setPassword={setPassword}
+      handleSubmit={handleSubmit}
     />
   );
 }

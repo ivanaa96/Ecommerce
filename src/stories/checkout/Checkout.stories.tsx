@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react';
 
 import { mockCartItems } from 'constants/test-constants';
 import CheckoutComponent from 'components/checkout/Checkout';
-import { CheckoutComponentProps } from 'components/checkout/Checkout/Checkout';
+import { CartItem } from 'store/products/types';
 
 const meta: Meta<typeof CheckoutComponent> = {
   title: 'Pages/CheckoutComponent',
@@ -67,9 +67,23 @@ const meta: Meta<typeof CheckoutComponent> = {
 };
 export default meta;
 
-const Template: StoryFn<CheckoutComponentProps> = (args) => (
-  <CheckoutComponent {...args} />
-);
+const Template: StoryFn<{
+  cartItems: CartItem[];
+  address: string;
+  phoneNumber: string;
+  additionalMessage: string;
+  totalPrice: number;
+  isAddressError: boolean;
+  isPhoneError: boolean;
+  isAuthenticated: boolean;
+  onAddressChange: (address: string) => void;
+  onPhoneNumberChange: (phoneNumber: string) => void;
+  onAdditionalMessageChange: (additionalMessage: string) => void;
+  onCheckout: () => void;
+  onRemoveItem: (productId: number) => void;
+  onUpdateQuantity: (productId: number, quantity: number) => void;
+  onRedirectToLogin: () => void;
+}> = (args) => <CheckoutComponent {...args} />;
 
 export const Authenticated = Template.bind({});
 Authenticated.args = {

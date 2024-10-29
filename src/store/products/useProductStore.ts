@@ -36,12 +36,6 @@ const useProductStore = create<ProductStore>((set, get) => ({
     }));
   },
 
-  resetCategories: () => {
-    set(() => ({
-      categories: [],
-    }));
-  },
-
   getProductById: async (id: string) => {
     try {
       const response = await axiosInstance.get(

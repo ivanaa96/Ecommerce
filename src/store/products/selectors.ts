@@ -36,5 +36,3 @@ export const useCategories = () =>
   useProductStore((state: ProductStore) => state.categories);
 export const useSearchByCategory = () =>
   useProductStore((state: ProductStore) => state.searchByCategory);
-export const useResetCategories = () =>
-  useProductStore((state: ProductStore) => state.resetCategories);

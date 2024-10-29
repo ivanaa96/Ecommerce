@@ -8,7 +8,7 @@ This project is a representation of an eCommerce application and it is built wit
 
 ## Installation
 
-After cloning the project, install the necessary dependencies by running:
+- After cloning the project, install the necessary dependencies by running:
 
 `npm ci`
 
@@ -22,7 +22,7 @@ Open http://localhost:3000 to view it in the browser.
 
 ## Running a Lint Check
 
-To run a lint check and identify any issues with code, execute the following command in the terminal:
+- To run a lint check and identify any issues with code, execute the following command in the terminal:
 
 `npm run lint`
 

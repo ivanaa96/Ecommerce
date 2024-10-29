@@ -6,6 +6,7 @@ import { mockCategories, mockProducts } from 'constants/test-constants';
 import { Category, Product } from 'store/products/types';
 import { SnackbarProvider } from 'hooks/useSnackbar';
 import { BrowserRouter } from 'react-router-dom';
+import { UNEXPECTED_ERROR } from 'constants/constants';
 
 const meta: Meta<typeof DashboardComponent> = {
   title: 'Components/DashboardComponent',
@@ -18,6 +19,7 @@ const meta: Meta<typeof DashboardComponent> = {
     showCategories: false,
     selectedCategory: null,
     isLoading: false,
+    hasErrors: null,
     fetchMoreProducts: () => console.log('Fetching more products...'),
     onSearch: (searchTerm: string) =>
       console.log(`Searching for: ${searchTerm}`),
@@ -61,6 +63,7 @@ const Template: StoryFn<{
   showCategories: boolean;
   selectedCategory: Category | null;
   isLoading: boolean;
+  hasErrors: string | null;
   fetchMoreProducts: () => void;
   onSearch: (searchTerm: string) => void;
   onSearchByCategory: (category: Category) => void;
@@ -111,4 +114,10 @@ WithSelectedCategory.args = {
   ...meta.args,
   showCategories: true,
   selectedCategory: mockCategories[0],
+};
+
+export const WithErrors = Template.bind({});
+WithErrors.args = {
+  ...meta.args,
+  hasErrors: UNEXPECTED_ERROR,
 };

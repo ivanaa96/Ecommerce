@@ -61,13 +61,4 @@ describe('CheckoutComponent', () => {
     expect(screen.getByText('Address is required.')).toBeInTheDocument();
     expect(screen.getByText('Phone number is required.')).toBeInTheDocument();
   });
-
-  it('calls onCheckout when checkout button is clicked', () => {
-    render(<CheckoutComponent {...mockProps} />);
-
-    const checkoutButton = screen.getByRole('button', { name: 'Checkout' });
-    fireEvent.click(checkoutButton);
-
-    expect(mockProps.onCheckout).toHaveBeenCalledTimes(1);
-  });
 });

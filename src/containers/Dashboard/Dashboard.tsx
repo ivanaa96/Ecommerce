@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 
 import DashboardComponent from 'components/dashboard';
-import { INITIAL_SKIP, LIMIT } from 'constants/constants';
+import { INITIAL_SKIP, LIMIT, UNEXPECTED_ERROR } from 'constants/constants';
 import useDebounce from 'hooks/useDebounce';
 import {
   useProducts,
@@ -27,6 +28,7 @@ function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [skip, setSkip] = useState(0);
   const [showCategories, setShowCategories] = useState(false);
+  const [errors, setErrors] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
@@ -55,6 +57,12 @@ function Dashboard() {
     setLoading(true);
     try {
       await action();
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setErrors(err.response?.data?.message || UNEXPECTED_ERROR);
+      } else {
+        setErrors(err instanceof Error ? err.message : UNEXPECTED_ERROR);
+      }
     } finally {
       setLoading(false);
     }
@@ -119,6 +127,7 @@ function Dashboard() {
       showCategories={showCategories}
       selectedCategory={selectedCategory}
       isLoading={loading}
+      hasErrors={errors}
       fetchMoreProducts={fetchMoreProducts}
       onSearch={handleSearch}
       onSearchByCategory={handleSearchByCategory}

@@ -13,13 +13,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import './product-details.css';
+import {
+  ADD_TO_FAVORITES,
+  ERROR_PRODUCT_NOT_FOUND,
+  REMOVE_FROM_FAVORITES,
+} from 'constants/constants';
+import Loader from 'components/ui/loader';
+import InfoMessage from 'components/ui/info-message';
 import { Product } from 'store/products/types';
-import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES } from 'constants/constants';
 
 interface ProductDetailProps {
-  product: Product;
+  product: Product | null;
   showMoreDetails: boolean;
   isFavorite: boolean;
+  isLoading: boolean;
+  hasErrors: string | null;
   onAddToCart: (product: Product) => void;
   onToggleMoreDetails: () => void;
   onToggleFavorite: () => void;
@@ -29,10 +37,24 @@ function ProductDetail({
   product,
   showMoreDetails,
   isFavorite,
+  hasErrors,
+  isLoading,
   onToggleMoreDetails,
   onAddToCart,
   onToggleFavorite,
 }: ProductDetailProps): JSX.Element {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (hasErrors) {
+    return <InfoMessage message={hasErrors} />;
+  }
+
+  if (!product) {
+    return <InfoMessage message={ERROR_PRODUCT_NOT_FOUND} />;
+  }
+
   return (
     <Card className="product-details-container">
       <CardMedia
@@ -89,6 +111,7 @@ function ProductDetail({
           <Button
             variant="contained"
             color="primary"
+            aria-label="add to cart"
             onClick={() => onAddToCart(product)}
           >
             Add to Cart
@@ -96,6 +119,7 @@ function ProductDetail({
 
           <Button
             variant="contained"
+            aria-label="favorites"
             color={isFavorite ? 'error' : 'secondary'}
             onClick={onToggleFavorite}
           >

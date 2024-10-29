@@ -20,3 +20,4 @@ export const ADD_TO_FAVORITES = 'Add to Favorites';
 
 export const INITIAL_SKIP = 0;
 export const LIMIT = 10;
+export const UNEXPECTED_ERROR = 'An unexpected error occurred!';

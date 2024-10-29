@@ -12,21 +12,17 @@ const useProductStore = create<ProductStore>((set, get) => ({
   categories: [],
 
   getProducts: async (limit: number, skip: number, searchTerm = '') => {
-    try {
-      const { data } = await axiosInstance.get(
-        `${API_ENDPOINTS.PRODUCTS.GET}/search?q=${searchTerm}&limit=${limit}&skip=${skip}`
-      );
+    const { data } = await axiosInstance.get(
+      `${API_ENDPOINTS.PRODUCTS.GET}/search?q=${searchTerm}&limit=${limit}&skip=${skip}`
+    );
 
-      const newProducts = data.products;
-      const totalNumber = data.total;
+    const newProducts = data.products;
+    const totalNumber = data.total;
 
-      set((state) => ({
-        products: [...state.products, ...newProducts],
-        totalNumberOfProducts: totalNumber,
-      }));
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    set((state) => ({
+      products: [...state.products, ...newProducts],
+      totalNumberOfProducts: totalNumber,
+    }));
   },
 
   resetProducts: () => {
@@ -37,17 +33,13 @@ const useProductStore = create<ProductStore>((set, get) => ({
   },
 
   getProductById: async (id: string) => {
-    try {
-      const response = await axiosInstance.get(
-        `${API_ENDPOINTS.PRODUCTS.GET}/${id}`
-      );
+    const response = await axiosInstance.get(
+      `${API_ENDPOINTS.PRODUCTS.GET}/${id}`
+    );
 
-      const product = response.data;
+    const product = response.data;
 
-      return product;
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    return product;
   },
 
   addToCart: (product: Product) => {
@@ -90,19 +82,12 @@ const useProductStore = create<ProductStore>((set, get) => ({
       quantity: item.quantity,
     }));
 
-    try {
-      const response = await axiosInstance.post(
-        API_ENDPOINTS.CHECKOUT.PURCHASE,
-        {
-          userId,
-          products: cartItems,
-        }
-      );
+    const response = await axiosInstance.post(API_ENDPOINTS.CHECKOUT.PURCHASE, {
+      userId,
+      products: cartItems,
+    });
 
-      return response.data;
-    } catch (error) {
-      throw new Error();
-    }
+    return response.data;
   },
 
   addToFavoriteProducts: (product: Product) => {
@@ -130,30 +115,20 @@ const useProductStore = create<ProductStore>((set, get) => ({
   },
 
   getCategories: async () => {
-    try {
-      const { data } = await axiosInstance.get(
-        API_ENDPOINTS.PRODUCTS.CATEGORIES
-      );
+    const { data } = await axiosInstance.get(API_ENDPOINTS.PRODUCTS.CATEGORIES);
 
-      set(() => ({ categories: data }));
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    set(() => ({ categories: data }));
   },
 
   searchByCategory: async (category: Category, skip: number, limit = 10) => {
-    try {
-      const { data } = await axiosInstance.get(
-        `${API_ENDPOINTS.PRODUCTS.SEARCH_BY_CATEGORY}${category.slug}?limit=${limit}&skip=${skip}`
-      );
+    const { data } = await axiosInstance.get(
+      `${API_ENDPOINTS.PRODUCTS.SEARCH_BY_CATEGORY}${category.slug}?limit=${limit}&skip=${skip}`
+    );
 
-      set((state) => ({
-        products: [...state.products, ...data.products],
-        totalNumberOfProducts: data.total,
-      }));
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    set((state) => ({
+      products: [...state.products, ...data.products],
+      totalNumberOfProducts: data.total,
+    }));
   },
 }));
 

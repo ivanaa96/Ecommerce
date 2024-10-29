@@ -16,6 +16,7 @@ interface DashboardComponentProps {
   showCategories: boolean;
   selectedCategory: Category | null;
   isLoading: boolean;
+  hasErrors: string | null;
   fetchMoreProducts: () => void;
   onSearch: (searchTerm: string) => void;
   onSearchByCategory: (category: Category) => void;
@@ -30,11 +31,16 @@ function DashboardComponent({
   showCategories,
   selectedCategory,
   isLoading,
+  hasErrors,
   fetchMoreProducts,
   onSearch,
   onSearchByCategory,
   onToggleCategories,
 }: DashboardComponentProps): JSX.Element {
+  if (hasErrors) {
+    return <InfoMessage message={hasErrors} />;
+  }
+
   const shouldShowNoMoreProductsMessage =
     (!isLoading && !hasMore) || (!isLoading && products.length === 0);
 

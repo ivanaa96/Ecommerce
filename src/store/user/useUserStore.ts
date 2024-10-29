@@ -8,17 +8,12 @@ const useUserStore = create<UserStore>((set) => ({
   user: null,
   setUser: (user: User) => set({ user }),
   login: async (username, password) => {
-    try {
-      const response = await axiosInstance.post(API_ENDPOINTS.AUTH.LOGIN, {
-        username,
-        password,
-      });
+    const response = await axiosInstance.post(API_ENDPOINTS.AUTH.LOGIN, {
+      username,
+      password,
+    });
 
-      set({ user: response.data });
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
-    }
+    set({ user: response.data });
   },
 }));
 

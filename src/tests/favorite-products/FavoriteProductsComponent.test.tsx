@@ -60,7 +60,7 @@ describe('FavoriteProductsComponent', () => {
       />
     );
 
-    fireEvent.click(screen.getAllByText(/product 1/i)[0]);
+    fireEvent.click(screen.getByText(mockProducts[0].title));
 
     expect(mockOnNavigate).toHaveBeenCalledWith(1);
     expect(mockOnNavigate).toHaveBeenCalledWith(mockProducts[0].id);

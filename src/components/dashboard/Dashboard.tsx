@@ -15,6 +15,7 @@ interface DashboardComponentProps {
   categories: Category[];
   showCategories: boolean;
   selectedCategory: Category | null;
+  isLoading: boolean;
   fetchMoreProducts: () => void;
   onSearch: (searchTerm: string) => void;
   onSearchByCategory: (category: Category) => void;
@@ -28,11 +29,15 @@ function DashboardComponent({
   categories,
   showCategories,
   selectedCategory,
+  isLoading,
   fetchMoreProducts,
   onSearch,
   onSearchByCategory,
   onToggleCategories,
 }: DashboardComponentProps): JSX.Element {
+  const shouldShowNoMoreProductsMessage =
+    (!isLoading && !hasMore) || (!isLoading && products.length === 0);
+
   return (
     <>
       <SearchComponent
@@ -44,15 +49,21 @@ function DashboardComponent({
         searchByCategory={onSearchByCategory}
         selectedCategory={selectedCategory}
       />
+
+      {isLoading && <Loader />}
+
       <InfiniteScroll
+        loader={isLoading}
         dataLength={products.length}
         hasMore={hasMore}
-        loader={<Loader />}
-        endMessage={<InfoMessage message={NO_MORE_PRODUCTS_MESSAGE} />}
         next={fetchMoreProducts}
       >
         <ProductList products={products} />
       </InfiniteScroll>
+
+      {shouldShowNoMoreProductsMessage && (
+        <InfoMessage message={NO_MORE_PRODUCTS_MESSAGE} />
+      )}
     </>
   );
 }

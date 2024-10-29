@@ -7,8 +7,8 @@ interface LoginComponentProps {
   username: string;
   password: string;
   error: string | null;
-  setUsername: React.Dispatch<React.SetStateAction<string>>;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  setUsername: (username: string) => void;
+  setPassword: (password: string) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 

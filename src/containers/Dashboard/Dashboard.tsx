@@ -30,60 +30,79 @@ function Dashboard() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
+  const [loading, setLoading] = useState(false);
+
   const debouncedSearchTerm = useDebounce(searchTerm.trim(), 1000);
 
   useEffect(() => {
     getCategories();
+
+    return () => {
+      resetProducts();
+    };
   }, []);
 
   useEffect(() => {
     fetchProducts(INITIAL_SKIP);
   }, [debouncedSearchTerm]);
 
-  const fetchProducts = useCallback(
-    async (skip: number) => {
-      try {
-        await getProducts(LIMIT, skip, debouncedSearchTerm);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    },
-    [getProducts, debouncedSearchTerm]
-  );
-
-  const fetchMoreProducts = () => {
-    const nextSkip = skip + LIMIT;
-
-    if (selectedCategory) {
-      searchByCategory(selectedCategory, skip + 10);
-    } else {
-      fetchProducts(skip + 10);
-    }
-
-    setSkip(nextSkip);
-  };
-
-  const handleSearch = (searchTerm: string) => {
+  const reset = () => {
     resetProducts();
-    setSearchTerm(searchTerm);
     setSkip(INITIAL_SKIP);
   };
 
+  const withLoading = useCallback(async (action: () => Promise<void>) => {
+    setLoading(true);
+    try {
+      await action();
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const fetchProducts = useCallback(
+    (skip: number) =>
+      withLoading(() => getProducts(LIMIT, skip, debouncedSearchTerm)),
+    [getProducts, debouncedSearchTerm, withLoading]
+  );
+
+  const fetchMoreProducts = useCallback(() => {
+    const nextSkip = skip + LIMIT;
+    setLoading(true);
+
+    if (selectedCategory) {
+      withLoading(() => searchByCategory(selectedCategory, nextSkip));
+    } else {
+      fetchProducts(nextSkip);
+    }
+
+    setSkip(nextSkip);
+  }, [fetchProducts, searchByCategory, selectedCategory, skip]);
+
   const handleToggleCategories = () => {
     if (selectedCategory) {
+      reset();
       setSearchTerm('');
-      resetProducts();
+
+      if (searchTerm === '') {
+        fetchProducts(INITIAL_SKIP);
+      }
     }
 
     setSelectedCategory(null);
     setShowCategories((prev) => !prev);
   };
 
+  const handleSearch = (searchTerm: string) => {
+    reset();
+    setLoading(true);
+    setSearchTerm(searchTerm);
+  };
+
   const handleSearchByCategory = (category: Category) => {
-    resetProducts();
+    reset();
     setSelectedCategory(category);
-    setSkip(INITIAL_SKIP);
-    searchByCategory(category, INITIAL_SKIP);
+    withLoading(() => searchByCategory(category, INITIAL_SKIP));
   };
 
   const hasMore = useMemo(
@@ -99,6 +118,7 @@ function Dashboard() {
       categories={categories}
       showCategories={showCategories}
       selectedCategory={selectedCategory}
+      isLoading={loading}
       fetchMoreProducts={fetchMoreProducts}
       onSearch={handleSearch}
       onSearchByCategory={handleSearchByCategory}

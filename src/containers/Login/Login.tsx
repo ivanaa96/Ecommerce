@@ -20,7 +20,7 @@ function Login() {
     if (user) {
       navigate('/dashboard');
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

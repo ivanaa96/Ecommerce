@@ -12,6 +12,8 @@ const meta: Meta<typeof ProductDetailsComponent> = {
     product: mockProducts[0],
     showMoreDetails: false,
     isFavorite: false,
+    hasErrors: '',
+    isLoading: false,
     onAddToCart: (product: Product) =>
       console.log(`Added to cart: ${product.title}`),
     onToggleMoreDetails: () => console.log('Toggled more details'),
@@ -31,6 +33,14 @@ const meta: Meta<typeof ProductDetailsComponent> = {
       description:
         'Indicates if the product should be added to the favorites list',
     },
+    isLoading: {
+      control: 'boolean',
+      description: 'Indicates if the page is loading',
+    },
+    hasErrors: {
+      control: 'object',
+      description: 'indicates if an error happened',
+    },
     onAddToCart: { action: 'added to cart' },
     onToggleMoreDetails: { action: 'toggle more details' },
     onToggleFavorite: { action: 'toggle favorite' },
@@ -43,12 +53,26 @@ const Template: StoryFn<{
   product: Product;
   showMoreDetails: boolean;
   isFavorite: boolean;
+  hasErrors: string | null;
+  isLoading: boolean;
   onAddToCart: (product: Product) => void;
   onToggleMoreDetails: () => void;
   onToggleFavorite: () => void;
 }> = (args) => <ProductDetailsComponent {...args} />;
 
 export const Default = Template.bind({});
+
+export const IsLoading = Template.bind({});
+IsLoading.args = {
+  ...Default.args,
+  isLoading: true,
+};
+
+export const HasError = Template.bind({});
+HasError.args = {
+  ...Default.args,
+  hasErrors: 'Product was not found.',
+};
 
 export const ShowMoreDetails = Template.bind({});
 ShowMoreDetails.args = {

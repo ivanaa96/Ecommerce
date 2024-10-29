@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import {
-  ERROR_PRODUCT_NOT_FOUND,
-  ERROR_PRODUCT_ID_MISSING,
   ERROR_FETCHING_PRODUCT_DETAILS,
+  ERROR_PRODUCT_ID_MISSING,
 } from 'constants/constants';
 import ProductDetailsComponent from 'components/product-details';
-import InfoMessage from 'components/ui/info-message';
-import Loader from 'components/ui/loader';
 import useFavorite from 'hooks/useFavorite';
 import { SnackbarSeverity, useSnackbarContext } from 'hooks/useSnackbar';
 import { Product } from 'store/products/types';
@@ -53,29 +50,19 @@ function ProductDetails(): JSX.Element {
 
   useEffect(() => {
     fetchProduct();
-  }, [id, getProductById]);
+  }, [id]);
 
   const handleShowMoreDetails = () => {
     setShowMoreDetails((prevState) => !prevState);
   };
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <InfoMessage message={error} />;
-  }
-
-  if (!product) {
-    return <InfoMessage message={ERROR_PRODUCT_NOT_FOUND} />;
-  }
 
   return (
     <ProductDetailsComponent
       product={product}
       showMoreDetails={showMoreDetails}
       isFavorite={isFavorite}
+      isLoading={loading}
+      hasErrors={error}
       onAddToCart={handleAddToCart}
       onToggleMoreDetails={handleShowMoreDetails}
       onToggleFavorite={toggleFavorite}

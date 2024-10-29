@@ -30,17 +30,23 @@ describe('LoginComponent', () => {
     expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
   });
 
-  it('it calls actions setUsername and setPassword when input changes', () => {
+  it('it calls action setUsername when input changes', () => {
     render(<LoginComponent {...mockProps} />);
 
     const username = screen.getByLabelText(/username/i);
-    const password = screen.getByLabelText(/password/i);
 
     fireEvent.change(username, { target: { value: 'newusername' } });
-    fireEvent.change(password, { target: { value: 'newpassword' } });
 
     expect(mockProps.setUsername).toHaveBeenCalledWith('newusername');
     expect(mockProps.setUsername).toHaveBeenCalledTimes(1);
+  });
+
+  it('it calls action setPassword when input changes', () => {
+    render(<LoginComponent {...mockProps} />);
+
+    const password = screen.getByLabelText(/password/i);
+
+    fireEvent.change(password, { target: { value: 'newpassword' } });
 
     expect(mockProps.setPassword).toHaveBeenCalledWith('newpassword');
     expect(mockProps.setPassword).toHaveBeenCalledTimes(1);

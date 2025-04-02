@@ -1,4 +1,4 @@
-# IvanaStanic_VegaIt_ECommerce
+# IvanaStanic_ECommerce
 
 This project is a representation of an eCommerce application and it is built with React and TypeScript. It is designed to provide users with a flawless shopping experience.
 
